@@ -8,7 +8,7 @@ When searching for primes up to int.MaxValue, I found that a bool array of size 
 # Example Usage
 
 The library is produced as a DLL file, so simply add the DLL as a reference to your project and follow the code example below.</br>
-The DLL is directly available from inside the solution <a href="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/PrimeSieve.dll">here</a>
+The DLL is directly available from inside the solution <a href="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/PrimeSieve.dll?raw=true">here</a>
 
 ## Code Example
 ```C#
