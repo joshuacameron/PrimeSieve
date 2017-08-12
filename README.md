@@ -27,7 +27,7 @@ namespace PrimeGeneratorExample
             Console.WriteLine("Starting to search for primes");
             sw.Start();
 
-            int[] primes = SieveofEratosthenes.GeneratePrimesToMax(int.MaxValue);
+            int[] primes = PrimeSieve.GeneratePrimesToMax(int.MaxValue);
 
             sw.Stop();
             Console.WriteLine("Completed");
