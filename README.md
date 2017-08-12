@@ -1,6 +1,6 @@
 # About PrimeSieve
 
-PrimeSieve is a C# library that generates primes using a Segmented Sieve of Eratosthenes implementation. The library calculates all the primes below int.MaxValue (~2.4 billion) in only 51.8 seconds (using single core of Intel Core i7-4700HQ 2.4GHz). I initially wrote the code due to requiring the generation of primes to solve problems at Project Euler. Currently PrimeSieve can only count all primes to int.MaxValue, however increasing this value is noted on the roadmap below.</br>
+PrimeSieve is a C# library that generates primes using a Segmented Sieve of Eratosthenes implementation. The library allows you to calculate all primes up to given value. It calculates all the primes below int.MaxValue (~2.4 billion) in only 51.8 seconds (using single core of Intel Core i7-4700HQ 2.4GHz). I initially wrote the code due to requiring the generation of primes to solve problems at <a href="https://projecteuler.net/about">Project Euler</a>. Currently PrimeSieve can only count all primes to int.MaxValue, however increasing this value is noted on the roadmap below.</br>
 </br>
 When searching for primes up to int.MaxValue, I found that a bool array of size [int.MaxValue] broke C#’s 2GB object limit. To solve this, I came up with what I later found to be known as the Segmented Sieve. This approach divides the numbers to check for primality into ranges (segments), and then iterates over each of these returning its primes.</br>
 </br>
