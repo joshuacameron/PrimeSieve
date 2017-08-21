@@ -20,9 +20,9 @@ namespace JoshuaaM.PrimeSieve
             return GeneratePrimesToMaxSingleThreaded(maxNumber);
         }
 
-        private static int[] GeneratePrimesToMaxSingleThreaded(int maxNumber)
+        private static int[] GenerateInitialPrimes(long maxNumber)
         {
-            int sqrtMaxNumber = (int)Math.Sqrt(maxNumber) + 1;
+            long sqrtMaxNumber = (long)Math.Sqrt(maxNumber) + 1;
             bool[] isPrime = new bool[sqrtMaxNumber + 1];
 
             int countNotPrime = 2; //0,1 are not prime
@@ -46,11 +46,21 @@ namespace JoshuaaM.PrimeSieve
                 }
             }
 
-            int[] initialPrimes = ConvertIsPrimeToPrimes(isPrime, countNotPrime, 0);
+            return ConvertIsPrimeToPrimes(isPrime, countNotPrime, 0);
+        }
+
+        private static int[] GeneratePrimesToMaxSingleThreaded(int maxNumber)
+        {
+            int sqrtMaxNumber = (int)Math.Sqrt(maxNumber) + 1;
+            int[] initialPrimes = GenerateInitialPrimes(maxNumber);
             List<int> primes = new List<int>(500000000); //Will be removed at a later date
             primes.AddRange(initialPrimes);
 
-            int setLength = 10000;
+            int setLength = 10000; //Less than size of CPU L1 cache
+            
+            //Setting setLength to 10,000,000 got the algorithm to about 1/3 the speed of original
+            //It just takes a long freaking time in Array resize/copy
+
             int[] temp;
             for (int i = sqrtMaxNumber + 1; ; i += setLength)
             {
