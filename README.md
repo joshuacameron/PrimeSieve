@@ -63,4 +63,4 @@ namespace PrimeSieveExample
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add ability to read/write primes to a file</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add ability for MaxNumber to be greater than int.MaxValue long (64 bit)</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add ability to ask for a count of primes, rather than a MaxValue</br>
-<img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add CPU multithreading</br>
+<img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Add CPU multithreading</br>
