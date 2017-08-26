@@ -10,8 +10,9 @@ namespace PrimeSieveExample
         {
             Console.Title = "PrimeSieve";
             Stopwatch sw = new Stopwatch();
-            int countOfPrimesToSearchForMax = 1000000000;
+            int countOfPrimesToSearchForMax = int.MaxValue;
 
+            Console.WriteLine("Searching for primes below: {0}", countOfPrimesToSearchForMax);
             Console.WriteLine("Starting to search for primes without multithreading");
             sw.Start();
             int[] primes = PrimeSieve.GeneratePrimesToMax(countOfPrimesToSearchForMax);
