@@ -10,15 +10,26 @@ namespace PrimeSieveExample
         {
             Console.Title = "PrimeSieve";
             Stopwatch sw = new Stopwatch();
-            Console.WriteLine("Starting to search for primes");
+            int countOfPrimesToSearchForMax = 1000000000;
+
+            Console.WriteLine("Starting to search for primes without multithreading");
             sw.Start();
-
-            int[] primes = PrimeSieve.GeneratePrimesToMax(int.MaxValue);
-
+            int[] primes = PrimeSieve.GeneratePrimesToMax(countOfPrimesToSearchForMax);
             sw.Stop();
-            Console.WriteLine("Completed");
+            Console.WriteLine("Completed without multithreading");
             Console.WriteLine("Time: {0}", sw.Elapsed);
             Console.WriteLine("Primes found: {0}", primes.Length);
+
+            sw.Reset();
+
+            Console.WriteLine("Starting to search for primes with multithreading");
+            sw.Start();
+            primes = PrimeSieve.GeneratePrimesToMax(countOfPrimesToSearchForMax, true);
+            sw.Stop();
+            Console.WriteLine("Completed with multithreading");
+            Console.WriteLine("Time: {0}", sw.Elapsed);
+            Console.WriteLine("Primes found: {0}", primes.Length);
+
             Console.ReadLine();
         }
     }

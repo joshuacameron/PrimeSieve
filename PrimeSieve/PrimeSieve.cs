@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace JoshuaaM.PrimeSieve
 {
     public static class PrimeSieve
     {
-        /// <summary>
-        /// Generate all primes up to maxNumber
-        /// </summary>
-        /// <param name="maxNumber">The max number to check for primes up until</param>
-        /// <returns></returns>
-        public static int[] GeneratePrimesToMax(int maxNumber)
+        static SemaphoreSlim semForGeneration = new SemaphoreSlim(1);
+        static SemaphoreSlim semForWork;
+
+        public static int[] GeneratePrimesToMax(int maxNumber, bool multiThreaded = false)
         {
             if (maxNumber < 2)
             {
                 return new int[] { };
             }
 
-            return GeneratePrimesToMaxSingleThreaded(maxNumber);
+            if(multiThreaded)
+            {
+                semForGeneration.Wait(); //Only one generation of primes can occur at once, otherwise pass semForWork to GeneratePrimesThreadWork
+                return GeneratePrimesToMaxMultiThreaded(maxNumber);
+            }
+            else
+            {
+                return GeneratePrimesToMaxSingleThreaded(maxNumber);
+            }
         }
 
         private static int[] GenerateInitialPrimes(long maxNumber)
@@ -53,14 +61,11 @@ namespace JoshuaaM.PrimeSieve
         {
             int sqrtMaxNumber = (int)Math.Sqrt(maxNumber) + 1;
             int[] initialPrimes = GenerateInitialPrimes(maxNumber);
-            List<int> primes = new List<int>(500000000); //Will be removed at a later date
+            List<int> primes = new List<int>(); //Will be removed at a later date
             primes.AddRange(initialPrimes);
 
             int setLength = 10000; //Less than size of CPU L1 cache
             
-            //Setting setLength to 10,000,000 got the algorithm to about 1/3 the speed of original
-            //It just takes a long freaking time in Array resize/copy
-
             int[] temp;
             for (int i = sqrtMaxNumber + 1; ; i += setLength)
             {
@@ -85,6 +90,62 @@ namespace JoshuaaM.PrimeSieve
             }
 
             return primes.ToArray();
+        }
+
+        private static int[] GeneratePrimesToMaxMultiThreaded(int maxNumber)
+        {
+            int sqrtMaxNumber = (int)Math.Sqrt(maxNumber) + 1;
+            int[] initialPrimes = GenerateInitialPrimes(maxNumber);
+            List<int> primes = new List<int>();
+            primes.AddRange(initialPrimes);
+
+            List<int> threadLowerLimits = new List<int>(); //Used to ordering results of thread work
+            List<Tuple<int, int[]>> threadWorkResult = new List<Tuple<int, int[]>>(); //Each thread going to return it's lower limit, and primes it found
+            semForWork = new SemaphoreSlim(Environment.ProcessorCount); //Only going to make one thread per logical processor
+            List<Task> tasks = new List<Task>();
+
+            int setLength = 10000;
+
+            for (int i = sqrtMaxNumber + 1; ; i += setLength)
+            {
+                semForWork.Wait(); //Waits for a processor to be available
+
+                int lowerLimit = i;
+                int upperLimit = ((long)lowerLimit + (long)setLength < int.MaxValue) ? lowerLimit + setLength : int.MaxValue;
+
+                Task task = Task.Factory.StartNew(() => GeneratePrimesThreadWork(lowerLimit, (upperLimit < maxNumber) ? upperLimit : maxNumber, initialPrimes, threadWorkResult));
+                tasks.Add(task);
+
+                if (upperLimit >= maxNumber)
+                {
+                    break;
+                }
+            }
+
+            Task.WaitAll(tasks.ToArray());
+
+            //Assemble the result
+            threadWorkResult.Sort((a, b) => a.Item1.CompareTo(b.Item1)); //Only order on 
+            foreach (Tuple<int, int[]> result in threadWorkResult)
+            {
+                primes.AddRange(result.Item2);
+            }
+
+            semForGeneration.Release();
+            return primes.ToArray();
+        }
+
+        private static void GeneratePrimesThreadWork(int lowerLimit, int upperLimit, int[] primeList, List<Tuple<int, int[]>> results)
+        {
+            int[] primeResults = CheckForPrimes(lowerLimit, upperLimit, primeList);
+
+            Tuple<int, int[]> result = new Tuple<int, int[]>(lowerLimit, primeResults);
+
+            lock (results)
+            {
+                results.Add(result);
+                semForWork.Release();
+            }
         }
 
         private static int[] CheckForPrimes(int min, int max, int[] primeList)
