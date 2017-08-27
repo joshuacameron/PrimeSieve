@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -194,7 +195,7 @@ namespace JoshuaaM.PrimeSieve
             return primes;
         }
 
-        public static void SavePrimesToFile(int[] primes, string filename)
+        public static void SavePrimesToBinaryFile(int[] primes, string filename)
         {
             using (BinaryWriter bw = new BinaryWriter(File.Open(filename, FileMode.Create)))
             {
@@ -206,7 +207,7 @@ namespace JoshuaaM.PrimeSieve
             }
         }
 
-        public static int[] LoadPrimesFromFile(string filename)
+        public static int[] LoadPrimesFromBinaryFile(string filename)
         {
             using (BinaryReader br = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
@@ -223,6 +224,58 @@ namespace JoshuaaM.PrimeSieve
                 }
 
                 return primes;
+            }
+        }
+
+        public static void SavePrimesToCompressedFile(int[] primes, string filename)
+        {
+            using (ZipFile zip = new ZipFile())
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (BinaryWriter bw = new BinaryWriter(ms))
+                    {
+                        bw.Write(primes.Length);
+                        foreach (int p in primes)
+                        {
+                            bw.Write(p);
+                        }
+
+                        bw.Flush();
+                        ms.Seek(0, SeekOrigin.Begin);
+                        ms.Flush();
+
+                        ZipEntry e = zip.AddEntry("primes.dat", ms);
+                        zip.Save(filename);
+                    }
+                }
+            }
+        }
+
+        public static int[] LoadPrimesFromCompressedFile(string filename)
+        {
+            using (ZipFile zip = ZipFile.Read(filename))
+            {
+                ZipEntry entry = zip["primes.dat"];
+                using (var stream = entry.OpenReader())
+                {
+                    using (BinaryReader br = new BinaryReader(stream))
+                    {
+                        int pos = sizeof(int);
+                        int length = (int)br.BaseStream.Length;
+
+                        int primeCount = br.ReadInt32();
+                        int[] primes = new int[primeCount];
+
+                        for (int i = 0; pos < length; i++)
+                        {
+                            primes[i] = br.ReadInt32();
+                            pos += sizeof(int);
+                        }
+
+                        return primes;
+                    }
+                }
             }
         }
     }

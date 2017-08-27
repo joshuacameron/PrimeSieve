@@ -12,6 +12,7 @@ namespace PrimeSieveExample
             Stopwatch sw = new Stopwatch();
             int countOfPrimesToSearchForMax = int.MaxValue;
 
+            
             Console.WriteLine("Searching for primes below: {0}", countOfPrimesToSearchForMax);
             Console.WriteLine("Starting to search for primes without multithreading");
             sw.Start();
@@ -22,6 +23,7 @@ namespace PrimeSieveExample
             Console.WriteLine("Primes found: {0}", primes.Length);
 
             sw.Reset();
+            
 
             Console.WriteLine("Starting to search for primes with multithreading");
             sw.Start();
@@ -31,8 +33,8 @@ namespace PrimeSieveExample
             Console.WriteLine("Time: {0}", sw.Elapsed);
             Console.WriteLine("Primes found: {0}", primes.Length);
 
-            PrimeSieve.SavePrimesToFile(primes, "primes.dat");
-            primes = PrimeSieve.LoadPrimesFromFile("primes.dat");
+            PrimeSieve.SavePrimesToCompressedFile(primes, "primes.zipdat");
+            //primes = PrimeSieve.LoadPrimesFromCompressedFile("primes.zipdat");
 
             Console.ReadLine();
         }
