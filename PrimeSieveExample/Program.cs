@@ -16,7 +16,7 @@ namespace PrimeSieveExample
             Console.WriteLine("Searching for primes below: {0}", countOfPrimesToSearchForMax);
             Console.WriteLine("Starting to search for primes without multithreading");
             sw.Start();
-            int[] primes = PrimeSieve.GeneratePrimesToMax(countOfPrimesToSearchForMax);
+            int[] primes = PrimeSieve.GeneratePrimesToMax(countOfPrimesToSearchForMax, false);
             sw.Stop();
             Console.WriteLine("Completed without multithreading");
             Console.WriteLine("Time: {0}", sw.Elapsed);

@@ -12,7 +12,7 @@ namespace JoshuaaM.PrimeSieve
         static SemaphoreSlim semForGeneration = new SemaphoreSlim(1);
         static SemaphoreSlim semForWork;
 
-        public static int[] GeneratePrimesToMax(int maxNumber, bool multiThreaded = false)
+        public static int[] GeneratePrimesToMax(int maxNumber, bool multiThreaded = true)
         {
             if (maxNumber < 2)
             {
