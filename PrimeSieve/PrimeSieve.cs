@@ -61,10 +61,10 @@ namespace JoshuaaM.PrimeSieve
         {
             int sqrtMaxNumber = (int)Math.Sqrt(maxNumber) + 1;
             int[] initialPrimes = GenerateInitialPrimes(maxNumber);
-            List<int> primes = new List<int>(500000000); //Will be removed at a later date
+            List<int> primes = new List<int>();
             primes.AddRange(initialPrimes);
 
-            int setLength = 10000; //Less than size of CPU L1 cache
+            int setLength = 10000;
             
             int[] temp;
             for (int i = sqrtMaxNumber + 1; ; i += setLength)
@@ -96,7 +96,7 @@ namespace JoshuaaM.PrimeSieve
         {
             int sqrtMaxNumber = (int)Math.Sqrt(maxNumber) + 1;
             int[] initialPrimes = GenerateInitialPrimes(maxNumber);
-            List<int> primes = new List<int>(500000000);
+            List<int> primes = new List<int>();
             primes.AddRange(initialPrimes);
 
             List<int> threadLowerLimits = new List<int>(); //Used to ordering results of thread work
