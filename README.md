@@ -45,6 +45,9 @@ namespace PrimeSieveExample
             Console.WriteLine("Completed with multithreading");
             Console.WriteLine("Time: {0}", sw.Elapsed);
             Console.WriteLine("Primes found: {0}", primes.Length);
+			
+			PrimeSieve.SavePrimesToFile(primes, "primes.dat");
+            //primes = PrimeSieve.LoadPrimesFromFile("primes.dat");
 
             Console.ReadLine();
         }
@@ -60,7 +63,8 @@ namespace PrimeSieveExample
 
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Resolve memory issue with use of List to store result in generator</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Create some performance benchmarks and graphs</br>
-<img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add ability to read/write primes to a file</br>
+<img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Add ability to read/write primes to a file</br>
+<img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add ability to read/write primes to compressed files</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add ability to ask for a count of primes, rather than a MaxValue</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Add CPU multithreading</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Unchecked.png?raw=true" height="20" align="absmiddle"/>Add ability for MaxNumber to be greater than int.MaxValue long (64 bit)</br>

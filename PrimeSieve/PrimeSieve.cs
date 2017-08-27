@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -191,6 +192,38 @@ namespace JoshuaaM.PrimeSieve
             }
 
             return primes;
+        }
+
+        public static void SavePrimesToFile(int[] primes, string filename)
+        {
+            using (BinaryWriter bw = new BinaryWriter(File.Open(filename, FileMode.Create)))
+            {
+                bw.Write(primes.Length);
+                foreach (int p in primes)
+                {
+                    bw.Write(p);
+                }
+            }
+        }
+
+        public static int[] LoadPrimesFromFile(string filename)
+        {
+            using (BinaryReader br = new BinaryReader(File.Open(filename, FileMode.Open)))
+            {
+                int pos = sizeof(int);
+                int length = (int)br.BaseStream.Length;
+
+                int primeCount = br.ReadInt32();
+                int[] primes = new int[primeCount];
+
+                for (int i = 0; pos < length; i++)
+                {
+                    primes[i] = br.ReadInt32();
+                    pos += sizeof(int);
+                }
+
+                return primes;
+            }
         }
     }
 }
