@@ -61,7 +61,6 @@ namespace PrimeSieveExample
 
 # Roadmap
 
-<img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Resolve memory issue with use of List to store result in generator</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Add ability to read/write primes to a file</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Add ability to read/write primes to a compressed file</br>
 <img src="https://github.com/JoshuaaMichael/PrimeSieve/blob/master/Images/Checkbox.png?raw=true" height="20" align="absmiddle"/>Add CPU multithreading</br>
