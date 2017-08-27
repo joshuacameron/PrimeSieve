@@ -46,7 +46,7 @@ namespace PrimeSieveExample
             Console.WriteLine("Time: {0}", sw.Elapsed);
             Console.WriteLine("Primes found: {0}", primes.Length);
 			
-			PrimeSieve.SavePrimesToFile(primes, "primes.dat");
+            PrimeSieve.SavePrimesToFile(primes, "primes.dat");
             //primes = PrimeSieve.LoadPrimesFromFile("primes.dat");
 
             Console.ReadLine();
